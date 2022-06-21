@@ -1,0 +1,113 @@
+* {
+	margin: 0;
+	padding: 0;
+}
+
+body {
+	background: rgba(4, 37, 85, 0.55);
+}
+
+.wrapper {
+	padding: 20px 15px;
+	box-sizing: border-box;
+}
+
+.wrapper__container {
+	max-width: 1240px;
+	margin: 0 auto;
+}
+
+.form {
+	width: 400px;
+	padding: 32px 10px;
+	box-sizing: border-box;
+	background: teal;
+	border-radius: 20px;
+	margin-bottom: 50px;
+}
+
+.form__title {
+	text-align: center;
+	color: #fff;
+	margin-bottom: 30px;
+	font-size: 24px;
+	line-height: 36px;
+}
+
+.form__item {
+	margin-bottom: 10px;
+}
+
+.form__item * {
+	width: 100%;
+}
+
+.form__item input {
+	height: 40px;
+	border-radius: 10px;
+	padding: 10px;
+	box-sizing: border-box;
+	border: none;
+	background: #c4c4c4;
+	color: #fff;
+}
+
+.form__item textarea {
+	border-radius: 10px;
+	padding: 10px;
+	box-sizing: border-box;
+	border: none;
+	background: #c4c4c4;
+	color: #fff;
+}
+
+.form__item button {
+	width: 100%;
+	line-height: 40px;
+	border: none;
+	border-radius: 20px;
+	cursor: pointer;
+}
+
+.cards {
+	display: flex;
+	flex-wrap: wrap;
+}
+
+.card {
+	margin-right: 30px;
+	max-width: 450px;
+	background-color: #fff;
+	padding: 20px 10px;
+	box-sizing: border-box;
+	border-radius: 10px;
+}
+
+.card__title {
+	text-transform: capitalize;
+	text-align: center;
+	font-size: 24px;
+	line-height: 36px;
+	margin-bottom: 20px;
+}
+
+.card__description {
+	margin-bottom: 20px;
+	max-width: 350px;
+}
+
+.card__footer {
+	display: flex;
+	align-items: center;
+	justify-content: end;
+}
+
+.card__btn {
+	width: 90px;
+	line-height: 30px;
+	cursor: pointer;
+	border: none;
+	border-radius: 20px;
+	margin-right: 20px;
+	background: rgba(4, 37, 85, 0.55);
+}
