@@ -1,52 +1,33 @@
-// const btn = document.getElementById("click");
-
-// const namesArray = [
-// 	{
-// 		id: 0,
-// 		name: "John",
-// 		likes: 0,
-// 		dislikes: 0,
-// 	},
-// 	{ id: 1, name: "Alan", likes: 0, dislikes: 0 },
-// 	{ id: 2, name: "Oleg", likes: 0, dislikes: 0 },
-// ];
-
-// let selectedPersonId = -1;
-
-// function getRandomName() {
-// 	const randomElement = Math.floor(Math.random() * 3);
-
-// 	selectedPersonId = namesArray[randomElement].id;
-
-// 	return namesArray[randomElement].name;
-// }
-
-// btn.addEventListener("click", () => {
-// 	const svg = btn.children[0];
-// 	const userName = getRandomName();
-
-// 	const text = document.createElement("p");
-
-// 	text.classList.add("text");
-
-// 	const user = namesArray.find(el => el.id === selectedPersonId);
-
-// 	if (svg.classList.contains("active")) {
-// 		user.dislikes = ++user.dislikes;
-// 		text.innerHTML = `${userName}, dislikes this post ${user.dislikes}`;
-// 	} else {
-// 		user.likes = ++user.likes;
-// 		text.innerHTML = `${userName}, likes this post ${user.likes}`;
-// 	}
-
-// 	document.getElementsByTagName("body")[0].appendChild(text);
-// 	svg.classList.toggle("active");
-// });
-
 const form = document.querySelector(".form");
 const cards = document.querySelector(".cards");
+const closeBtn = document.querySelector(".close__btn");
+const createBtn = document.querySelector(".create__btn");
+
+function closeForm(actionType) {
+	if (actionType === "close") {
+		form.style.display = "none";
+	} else {
+		form.style.display = "block";
+	}
+}
+
+closeBtn.addEventListener("click", function () {
+	createBtn.style.display = "block";
+
+	closeForm("close");
+});
+
+createBtn.addEventListener("click", function () {
+	this.style.display = "none";
+
+	closeForm("create");
+});
 
 const createCard = () => {
+	if (!localStorage.getItem("cardsArray")) return;
+
+	cards.innerHTML = "";
+
 	const cardsArray = JSON.parse(localStorage.getItem("cardsArray"));
 
 	cardsArray.forEach(el => {
@@ -58,10 +39,12 @@ const createCard = () => {
       <p class="card__description">
         ${el.plaintext}
       </p>
-  
+
       <div class="card__footer">
-        <button class="card__btn">like</button>
-        <button class="card__btn">dislike</button>
+        <button class="card__btn like">like</button>
+				<span class="likes">0</span>
+        <button class="card__btn dislike">dislike</button>
+				<span class="dislikes">0</span>
       </div>
     `;
 
@@ -71,8 +54,15 @@ const createCard = () => {
 
 form.addEventListener("submit", event => {
 	event.preventDefault();
+
 	const messageObject = {};
-	const messages = JSON.parse(localStorage.getItem("cardsArray"));
+	let messages;
+
+	if (localStorage.getItem("cardsArray")) {
+		messages = JSON.parse(localStorage.getItem("cardsArray"));
+	} else {
+		messages = [];
+	}
 
 	Array.from(form).map(el => {
 		if (el.hasAttribute("name")) {
@@ -82,10 +72,31 @@ form.addEventListener("submit", event => {
 
 	messages.push(messageObject);
 	localStorage.setItem("cardsArray", JSON.stringify(messages));
-
 	createCard();
 	messages.length = 0;
 	form.reset();
+
+	window.location.reload();
 });
 
-window.onload = () => createCard();
+window.onload = () => {
+	createCard();
+
+	const likesBtn = document.querySelectorAll(".like");
+	const dislikesBtn = document.querySelectorAll(".dislike");
+
+	respectMark(likesBtn, "likes");
+	respectMark(dislikesBtn, "dislikes");
+};
+
+const respectMark = (btns, type) => {
+	btns.forEach(el => {
+		el.addEventListener("click", function () {
+			const countText = Array.from(el.parentNode.children).find(
+				el => el.classList.value === type
+			);
+
+			countText.innerHTML = Number(countText.innerHTML) + 1;
+		});
+	});
+};
